@@ -261,9 +261,9 @@ final class ClanWarBoardApiClient
 		return headers;
 	}
 
-	static ClanWarBoardSession parseSession(String json)
+	ClanWarBoardSession parseSession(String json)
 	{
-		JsonObject root = new Gson().fromJson(json, JsonObject.class);
+		JsonObject root = gson.fromJson(json, JsonObject.class);
 		if (root == null || !root.has("sessionToken") || !root.has("expiresAt")
 			|| !root.has("capabilities") || !root.get("capabilities").isJsonArray())
 		{
@@ -287,7 +287,7 @@ final class ClanWarBoardApiClient
 		return new ClanWarBoardSession(token, OffsetDateTime.parse(expiresAt).toInstant(), capabilities);
 	}
 
-	private static ClanWarBoardSession parseSessionResponse(String json) throws IOException
+	private ClanWarBoardSession parseSessionResponse(String json) throws IOException
 	{
 		try
 		{

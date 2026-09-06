@@ -385,7 +385,7 @@ public class ClanWarBoardPluginTest
 	@Test
 	public void registrationResponseParsesSessionAndCapabilities()
 	{
-		ClanWarBoardSession session = ClanWarBoardApiClient.parseSession("{\"sessionToken\":\"token-123\",\"expiresAt\":\"2026-07-20T20:00:00+00:00\",\"capabilities\":[\"member:read\",\"leader:write\"]}");
+		ClanWarBoardSession session = new ClanWarBoardApiClient(new OkHttpClient(), new Gson()).parseSession("{\"sessionToken\":\"token-123\",\"expiresAt\":\"2026-07-20T20:00:00+00:00\",\"capabilities\":[\"member:read\",\"leader:write\"]}");
 		assertEquals("token-123", session.getToken());
 		assertTrue(session.hasCapability("leader:write"));
 		assertFalse(session.hasCapability("admin"));
@@ -394,7 +394,7 @@ public class ClanWarBoardPluginTest
 	@Test(expected = IllegalArgumentException.class)
 	public void registrationResponseRejectsMissingCredentials()
 	{
-		ClanWarBoardApiClient.parseSession("{\"capabilities\":[\"member:read\"]}");
+		new ClanWarBoardApiClient(new OkHttpClient(), new Gson()).parseSession("{\"capabilities\":[\"member:read\"]}");
 	}
 
 
